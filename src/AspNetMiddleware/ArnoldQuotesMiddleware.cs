@@ -9,6 +9,7 @@ namespace AspNetMiddleware
 
     public class ArnoldQuotesMiddleware
     {
+        private readonly RequestDelegate _next;
         private readonly ILogger _logger;
 
         private readonly List<string> _quotes = new List<string>
@@ -23,6 +24,7 @@ namespace AspNetMiddleware
 
         public ArnoldQuotesMiddleware(RequestDelegate next, ILoggerFactory loggerFactory)
         {
+            _next = next;
             _logger = loggerFactory.CreateLogger<ArnoldQuotesMiddleware>();
         }
 
@@ -33,6 +35,7 @@ namespace AspNetMiddleware
             _logger.LogWarning(arnoldSays);
 
             await context.Response.WriteAsync(arnoldSays);
+            //await _next(context);
         }
     }
 }
